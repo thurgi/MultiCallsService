@@ -1,12 +1,10 @@
 import { Observable, Subject } from 'rxjs';
-import { ResponseHandlerService } from './response-handler/response-handler.service';
 
 export class MultiCallsService {
   private errors: { [key: string]: any } = [];
   private results: { [key: string]: any } = [];
   private nbCall: number = 0;
   private readonly calls: Subject<{ [key: string]: any }> = new Subject<{ [p: string]: any }[]>();
-  private responseHandlerService: ResponseHandlerService = new ResponseHandlerService();
 
   public getObservable(): Observable<{ [p: string]: any }> {
     return this.calls;
@@ -22,7 +20,7 @@ export class MultiCallsService {
   }
 
   private ifError(err, name?: string) {
-    const message: string = this.responseHandlerService.formatErrors(err);
+    const message: string = err.message;
     if (name) {
       this.errors[name] = message;
     } else {
